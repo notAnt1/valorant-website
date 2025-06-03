@@ -8,5 +8,5 @@ async function getStats() {
 output.textContent = 
   `Rank: ${data.rank}` +
   `${data.rrCount}RR,` +
-  `Games Played: ${data.gamesPlayed}`;
+  `Most Recent RR: ${data.gamesPlayed}`;
 }
