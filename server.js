@@ -21,7 +21,9 @@ app.get("/api/stats", async (req, res) => {
     let [rr, p3] = p2.split("(");
     rrCount = rr.slice(4, -1);
     gamesPlayed = p3.slice(0, -1);
-    res.json({rank, rrCount, gamesPlayed });
+    res.send(`Rank: ${rank}` +
+  `${rrCount}RR ` +
+  `Most Recent RR: ${gamesPlayed}`);
 
   } catch (error) {
     console.error(error);
