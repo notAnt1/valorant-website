@@ -4,9 +4,7 @@ async function getStats() {
     const inputRegion = document.getElementById("region").value;
     const output = document.getElementById("output");
     const response = await fetch(`/api/stats?name=${inputName}&tag=${inputTag}&region=${inputRegion}`);
-    const data = await response.json();
+    const data = await response.text();
 output.textContent = 
-  `Rank: ${data.rank}` +
-  `${data.rrCount}RR,` +
-  `Most Recent RR: ${data.gamesPlayed}`;
+  data;
 }
