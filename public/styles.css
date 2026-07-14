@@ -219,13 +219,8 @@ a {
   padding-bottom: 60px;
 }
 
-#tidal {
-  padding-top: 48px;
-  padding-bottom: 24px;
-}
-
 #socials {
-  padding-top: 24px;
+  padding-top: 48px;
   padding-bottom: 24px;
 }
 
@@ -330,11 +325,6 @@ h1 span {
   -webkit-backdrop-filter: blur(24px);
 }
 
-.tidal-widget {
-  padding-top: clamp(26px, 3.8vw, 44px);
-  padding-bottom: clamp(26px, 3.8vw, 44px);
-}
-
 .widget-header {
   display: flex;
   align-items: flex-start;
@@ -367,62 +357,6 @@ h1 span {
 
   font-size: 1.05rem;
   line-height: 1.7;
-}
-
-.tidal-content {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 40px;
-
-  margin-top: clamp(32px, 4.5vw, 50px);
-}
-
-.tidal-mark {
-  width: 64px;
-}
-
-.tidal-mark svg {
-  display: block;
-  width: 100%;
-  height: auto;
-  fill: currentColor;
-}
-
-.tidal-details {
-  flex: 1;
-}
-
-.primary-button {
-  display: inline-flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 45px;
-
-  min-width: 235px;
-  margin-top: 34px;
-  padding: 17px 20px;
-
-  border:
-    1px solid rgba(255, 255, 255, 0.16);
-
-  border-radius: 999px;
-
-  background: var(--text);
-  color: #05050d;
-
-  font-size: 0.86rem;
-  font-weight: 700;
-  text-decoration: none;
-
-  transition:
-    transform 180ms ease,
-    background 180ms ease;
-}
-
-.primary-button:hover {
-  background: #dcdcff;
-  transform: translateY(-3px);
 }
 
 .links-panel {
@@ -774,7 +708,6 @@ h1 span {
     padding-bottom: 38px;
   }
 
-  #tidal,
   #socials,
   #rr-checker {
     padding-top: 18px;
@@ -798,11 +731,6 @@ h1 span {
     border-radius: 24px;
   }
 
-  .tidal-widget {
-    padding-top: 24px;
-    padding-bottom: 24px;
-  }
-
   .widget h2 {
     font-size: clamp(2.8rem, 16vw, 4.5rem);
   }
@@ -810,17 +738,6 @@ h1 span {
   .widget-number,
   .live-status {
     margin-top: 8px;
-  }
-
-  .tidal-content {
-    align-items: flex-start;
-    flex-direction: column;
-
-    margin-top: 28px;
-  }
-
-  .primary-button {
-    width: 100%;
   }
 
   .social-list {
