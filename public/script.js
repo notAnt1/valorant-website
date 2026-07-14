@@ -1,104 +1,258 @@
 "use strict";
 
-const rrForm = document.querySelector("#rr-form");
-const submitButton = document.querySelector("#rr-submit");
-const messageElement = document.querySelector("#rr-message");
-const resultsElement = document.querySelector("#rr-results");
+/*
+  Add this class immediately.
 
-const rankElement = document.querySelector("#rank-result");
-const rrElement = document.querySelector("#rr-result");
-const recentElement = document.querySelector("#recent-result");
+  CSS without JavaScript shows all content normally.
+  CSS with JavaScript enables the reveal animation.
+*/
+document.documentElement.classList.add("js-enabled");
 
-const yearElement = document.querySelector("#current-year");
+const currentYearElement =
+  document.querySelector("#current-year");
 
-yearElement.textContent = new Date().getFullYear();
+if (currentYearElement) {
+  currentYearElement.textContent =
+    String(new Date().getFullYear());
+}
 
-rrForm.addEventListener("submit", async (event) => {
+/*
+  Reveal animation
+*/
+
+const revealElements =
+  document.querySelectorAll(".reveal");
+
+function revealElement(element) {
+  if (!element) return;
+
+  element.classList.add("visible");
+}
+
+function revealElementsInViewport() {
+  revealElements.forEach((element) => {
+    const rectangle =
+      element.getBoundingClientRect();
+
+    const isVisible =
+      rectangle.top < window.innerHeight * 0.95 &&
+      rectangle.bottom > 0;
+
+    if (isVisible) {
+      revealElement(element);
+    }
+  });
+}
+
+if (
+  "IntersectionObserver" in window &&
+  revealElements.length > 0
+) {
+  const revealObserver =
+    new IntersectionObserver(
+      (entries, observer) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+
+          revealElement(entry.target);
+          observer.unobserve(entry.target);
+        });
+      },
+      {
+        threshold: 0.05,
+        rootMargin: "0px 0px 80px 0px"
+      }
+    );
+
+  revealElements.forEach((element) => {
+    revealObserver.observe(element);
+  });
+} else {
+  revealElements.forEach((element) => {
+    revealElement(element);
+  });
+}
+
+/*
+  Handles:
+  - initial page load
+  - direct links such as /#socials
+  - browser back/forward hash navigation
+  - layout changes after fonts load
+*/
+
+window.addEventListener(
+  "load",
+  revealElementsInViewport
+);
+
+window.addEventListener(
+  "hashchange",
+  () => {
+    window.requestAnimationFrame(
+      revealElementsInViewport
+    );
+  }
+);
+
+window.addEventListener(
+  "resize",
+  revealElementsInViewport
+);
+
+window.requestAnimationFrame(
+  revealElementsInViewport
+);
+
+/*
+  RR checker
+*/
+
+const rrForm =
+  document.querySelector("#rr-form");
+
+const submitButton =
+  document.querySelector("#rr-submit");
+
+const messageElement =
+  document.querySelector("#rr-message");
+
+const resultsElement =
+  document.querySelector("#rr-results");
+
+const rankElement =
+  document.querySelector("#rank-result");
+
+const rrElement =
+  document.querySelector("#rr-result");
+
+const recentElement =
+  document.querySelector("#recent-result");
+
+if (rrForm) {
+  rrForm.addEventListener(
+    "submit",
+    handleRRSubmit
+  );
+}
+
+async function handleRRSubmit(event) {
   event.preventDefault();
 
-  const formData = new FormData(rrForm);
+  const formData =
+    new FormData(rrForm);
 
-  const name = formData.get("name")?.trim();
-  const tag = formData.get("tag")?.trim();
-  const region = formData.get("region")?.trim();
+  const name =
+    String(formData.get("name") || "").trim();
 
-  clearResults();
+  const tag =
+    String(formData.get("tag") || "").trim();
+
+  const region =
+    String(formData.get("region") || "").trim();
 
   if (!name || !tag || !region) {
-    showError("Enter a Riot name, tag, and region.");
+    showError(
+      "Enter a Riot name, tag, and region."
+    );
+
     return;
   }
 
-  setLoading(true);
+  setLoadingState(true);
 
-  const searchParameters = new URLSearchParams({
-    name,
-    tag,
-    region
-  });
+  if (resultsElement) {
+    resultsElement.hidden = true;
+  }
+
+  if (messageElement) {
+    messageElement.textContent =
+      "Retrieving rank information…";
+
+    messageElement.classList.remove("error");
+  }
 
   try {
-    const response = await fetch(
-      `/api/stats?${searchParameters.toString()}`
-    );
+    const parameters =
+      new URLSearchParams({
+        name,
+        tag,
+        region
+      });
 
-    const data = await response.json();
+    const response =
+      await fetch(
+        `/api/stats?${parameters.toString()}`
+      );
+
+    const data =
+      await response.json().catch(() => null);
 
     if (!response.ok) {
       throw new Error(
-        data.error || "Unable to retrieve rank information."
+        data?.error ||
+        data?.message ||
+        "Unable to retrieve rank information."
       );
     }
 
-    displayResults(data);
+    displayResults(data || {});
   } catch (error) {
-    console.error("RR lookup error:", error);
+    const errorMessage =
+      error instanceof Error
+        ? error.message
+        : "Unable to retrieve rank information.";
 
-    showError(
-      error.message ||
-      "The rank service is currently unavailable. Try again shortly."
-    );
+    showError(errorMessage);
   } finally {
-    setLoading(false);
-  }
-});
-
-function setLoading(isLoading) {
-  submitButton.disabled = isLoading;
-  submitButton.textContent = isLoading ? "Checking…" : "Check RR";
-
-  if (isLoading) {
-    messageElement.classList.remove("error");
-    messageElement.textContent = "Retrieving rank information…";
+    setLoadingState(false);
   }
 }
 
-function clearResults() {
-  resultsElement.hidden = true;
+function setLoadingState(isLoading) {
+  if (!submitButton) return;
 
-  messageElement.textContent = "";
-  messageElement.classList.remove("error");
+  submitButton.disabled = isLoading;
 
-  rankElement.textContent = "—";
-  rrElement.textContent = "—";
-  recentElement.textContent = "—";
+  submitButton.textContent =
+    isLoading
+      ? "Checking…"
+      : "Check RR";
 }
 
 function showError(message) {
-  resultsElement.hidden = true;
+  if (messageElement) {
+    messageElement.textContent = message;
+    messageElement.classList.add("error");
+  }
 
-  messageElement.textContent = message;
-  messageElement.classList.add("error");
+  if (resultsElement) {
+    resultsElement.hidden = true;
+  }
 }
 
 function displayResults(data) {
-  rankElement.textContent = data.rank || "Unavailable";
-  rrElement.textContent = data.rr ?? "—";
-  recentElement.textContent = data.recentRR ?? "Unavailable";
+  if (rankElement) {
+    rankElement.textContent =
+      data.rank || "Unavailable";
+  }
 
-  messageElement.textContent = "";
-  messageElement.classList.remove("error");
+  if (rrElement) {
+    rrElement.textContent =
+      data.rr ?? "—";
+  }
 
-  resultsElement.hidden = false;
+  if (recentElement) {
+    recentElement.textContent =
+      data.recentRR ?? "Unavailable";
+  }
+
+  if (messageElement) {
+    messageElement.textContent = "";
+    messageElement.classList.remove("error");
+  }
+
+  if (resultsElement) {
+    resultsElement.hidden = false;
+  }
 }
-
