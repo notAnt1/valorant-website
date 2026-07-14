@@ -379,17 +379,14 @@ h1 span {
 }
 
 .tidal-mark {
-  display: grid;
-  grid-template-columns: repeat(4, 12px);
-  gap: 4px;
-
-  flex: 0 0 auto;
+  width: 64px;
 }
 
-.tidal-mark span {
-  color: var(--text);
-  font-size: 0.85rem;
-  line-height: 1;
+.tidal-mark svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  fill: currentColor;
 }
 
 .tidal-details {
