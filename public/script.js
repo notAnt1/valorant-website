@@ -1,4 +1,5 @@
 "use strict";
+document.documentElement.classList.add("js-enabled");
 
 const rrForm = document.querySelector("#rr-form");
 const submitButton = document.querySelector("#rr-submit");
@@ -104,6 +105,19 @@ function displayResults(data) {
 
 const revealElements = document.querySelectorAll(".reveal");
 
+function revealVisibleElements() {
+  revealElements.forEach((element) => {
+    const rectangle = element.getBoundingClientRect();
+
+    if (
+      rectangle.top < window.innerHeight * 0.95 &&
+      rectangle.bottom > 0
+    ) {
+      element.classList.add("visible");
+    }
+  });
+}
+
 if ("IntersectionObserver" in window) {
   const revealObserver = new IntersectionObserver(
     (entries, observer) => {
@@ -117,13 +131,19 @@ if ("IntersectionObserver" in window) {
       });
     },
     {
-      threshold: 0.15
+      threshold: 0.05,
+      rootMargin: "0px 0px 80px 0px"
     }
   );
 
   revealElements.forEach((element) => {
     revealObserver.observe(element);
   });
+
+  window.addEventListener("load", revealVisibleElements);
+  window.addEventListener("hashchange", revealVisibleElements);
+
+  requestAnimationFrame(revealVisibleElements);
 } else {
   revealElements.forEach((element) => {
     element.classList.add("visible");
