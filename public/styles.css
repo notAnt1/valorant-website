@@ -915,3 +915,62 @@ h1 span {
     transform: none;
   }
 }
+
+/* Permanent Socials visibility fix */
+#socials {
+  display: flex !important;
+  position: relative !important;
+  z-index: 5 !important;
+
+  width: min(var(--page-width), calc(100% - 40px)) !important;
+  min-height: auto !important;
+
+  opacity: 1 !important;
+  visibility: visible !important;
+  overflow: visible !important;
+}
+
+#socials .socials-widget {
+  display: block !important;
+  position: relative !important;
+
+  width: 100% !important;
+  height: auto !important;
+  min-height: 400px !important;
+
+  opacity: 1 !important;
+  visibility: visible !important;
+  transform: none !important;
+
+  border: 1px solid var(--border) !important;
+
+  background:
+    linear-gradient(
+      145deg,
+      rgba(22, 23, 57, 0.92),
+      rgba(5, 5, 18, 0.94)
+    ) !important;
+}
+
+#socials .widget-header,
+#socials .social-list,
+#socials .social-item {
+  display: flex !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+}
+
+#socials .widget-header {
+  justify-content: space-between !important;
+}
+
+#socials .social-list {
+  flex-direction: column !important;
+  width: 100% !important;
+}
+
+#socials .social-item {
+  align-items: center !important;
+  justify-content: space-between !important;
+  width: 100% !important;
+}
