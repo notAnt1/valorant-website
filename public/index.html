@@ -1,20 +1,271 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Valorant Stats</title>
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1"
+  >
+
+  <meta
+    name="description"
+    content="Oscar To — music, social profiles, résumé, and Valorant RR checker."
+  >
+
+  <title>Oscar To</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <link
+    href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&display=swap"
+    rel="stylesheet"
+  >
+
+  <link rel="stylesheet" href="/styles.css">
+  <script src="/script.js" defer></script>
 </head>
+
 <body>
+  <div class="background-glow" aria-hidden="true"></div>
+  <div class="background-noise" aria-hidden="true"></div>
 
-  <h1>Valorant Player Stats</h1>
+  <header class="site-header">
+    <a class="logo" href="#home" aria-label="Oscar To homepage">
+      OSCAR TO
+    </a>
 
-  <input type="text" id="username" placeholder="Enter Riot ID">
-  <input type="text" id="tag" placeholder="Enter tag">
-  <input type="text" id="region" placeholder="Enter region">
-  <button onclick="getStats()">Get Stats</button>
+    <nav class="navigation" aria-label="Main navigation">
+      <a href="#tidal">Tidal</a>
+      <a href="#socials">Socials</a>
+      <a href="#rr-checker">RR Checker</a>
+    </nav>
+  </header>
 
-  <pre id="output"></pre>
+  <main>
+    <section id="home" class="page-section hero-section">
+      <div class="hero-content reveal">
+        <p class="section-kicker">hi, i'm</p>
 
-  <script src="script.js"></script>
+        <h1>
+          OSCAR
+          <span>TO</span>
+        </h1>
 
+        <p class="hero-description">
+          Mathematics, statistics, research, music, design, and technical
+          projects.
+        </p>
+
+        <a class="scroll-link" href="#tidal">
+          Explore
+          <span aria-hidden="true">↓</span>
+        </a>
+      </div>
+    </section>
+
+    <section id="tidal" class="page-section">
+      <article class="widget tidal-widget reveal">
+        <div class="widget-header">
+          <div>
+            <p class="section-kicker">Listening</p>
+            <h2>Tidal</h2>
+          </div>
+
+          <span class="widget-number">01</span>
+        </div>
+
+        <div class="tidal-content">
+          <div class="tidal-mark" aria-hidden="true">
+            <span>◆</span>
+            <span>◆</span>
+            <span>◆</span>
+            <span>◆</span>
+          </div>
+
+          <div class="tidal-details">
+            <p class="widget-description">
+              stuff I've been listening to.
+            </p>
+
+            <a
+              class="primary-button"
+              href="tidal.com/@ant1"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Open Tidal profile
+              <span aria-hidden="true">↗</span>
+            </a>
+          </div>
+        </div>
+      </article>
+    </section>
+
+    <section id="socials" class="page-section">
+      <article class="widget socials-widget reveal">
+        <div class="widget-header">
+          <div>
+            <p class="section-kicker">Find me online</p>
+            <h2>Socials</h2>
+          </div>
+
+          <span class="widget-number">02</span>
+        </div>
+
+        <div class="social-list">
+          <a
+            class="social-item"
+            href="https://www.instagram.com/oscar.to0/?hl=en"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <span>Instagram</span>
+            <span class="social-arrow" aria-hidden="true">↗</span>
+          </a>
+
+          <a
+            class="social-item"
+            href="tidal.com/@ant1"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <span>Tidal</span>
+            <span class="social-arrow" aria-hidden="true">↗</span>
+          </a>
+
+          <a
+            class="social-item"
+            href="https://github.com/notAnt1"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <span>GitHub</span>
+            <span class="social-arrow" aria-hidden="true">↗</span>
+          </a>
+
+          <a
+            class="social-item"
+            href="mailto:oscarto0226@gmail.com"
+          >
+            <span>Email</span>
+            <span class="social-arrow" aria-hidden="true">↗</span>
+          </a>
+
+          <a
+            class="social-item"
+            href="/resume.pdf"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            <span>Résumé</span>
+            <span class="social-arrow" aria-hidden="true">↗</span>
+          </a>
+        </div>
+      </article>
+    </section>
+
+    <section id="rr-checker" class="page-section rr-section">
+      <article class="widget rr-widget reveal">
+        <div class="widget-header">
+          <div>
+            <p class="section-kicker">Live project</p>
+            <h2>Valorant RR Checker</h2>
+          </div>
+
+          <div class="live-status">
+            <span class="live-dot" aria-hidden="true"></span>
+            Live
+          </div>
+        </div>
+
+        <p class="widget-description rr-description">
+          Enter a Riot name, tag, and region to retrieve current competitive
+          rank information.
+        </p>
+
+        <form id="rr-form" class="rr-form">
+          <label class="input-group">
+            <span>Riot name</span>
+
+            <input
+              id="riot-name"
+              name="name"
+              type="text"
+              placeholder="Player name"
+              autocomplete="off"
+              maxlength="32"
+              required
+            >
+          </label>
+
+          <label class="input-group">
+            <span>Tag</span>
+
+            <input
+              id="riot-tag"
+              name="tag"
+              type="text"
+              placeholder="NA1"
+              autocomplete="off"
+              maxlength="10"
+              required
+            >
+          </label>
+
+          <label class="input-group">
+            <span>Region</span>
+
+            <select id="riot-region" name="region" required>
+              <option value="na">North America</option>
+              <option value="eu">Europe</option>
+              <option value="ap">Asia Pacific</option>
+              <option value="kr">Korea</option>
+              <option value="latam">Latin America</option>
+              <option value="br">Brazil</option>
+            </select>
+          </label>
+
+          <button id="rr-submit" class="submit-button" type="submit">
+            Check RR
+          </button>
+        </form>
+
+        <p
+          id="rr-message"
+          class="rr-message"
+          role="status"
+          aria-live="polite"
+        ></p>
+
+        <section id="rr-results" class="rr-results" hidden>
+          <div class="result-card">
+            <span class="result-label">Current rank</span>
+            <strong id="rank-result">—</strong>
+          </div>
+
+          <div class="result-card">
+            <span class="result-label">Rank rating</span>
+
+            <strong>
+              <span id="rr-result">—</span>
+              <small>RR</small>
+            </strong>
+          </div>
+
+          <div class="result-card">
+            <span class="result-label">Recent RR</span>
+            <strong id="recent-result">—</strong>
+          </div>
+        </section>
+      </article>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <p>© <span id="current-year"></span> Oscar To</p>
+    <a href="#home">Back to top ↑</a>
+  </footer>
 </body>
 </html>
